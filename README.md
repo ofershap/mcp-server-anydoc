@@ -1,27 +1,25 @@
 <h1 align="center">mcp-server-anydoc</h1>
 
 <p align="center">
-  <strong>Claude Code can finally read the PDF on your disk.</strong>
+  <strong>Your coding agent cannot Read a .docx. This fixes that.</strong>
 </p>
 
 <p align="center">
-  Local MCP + skill that turns Word, PowerPoint, Excel, PDF and more into Markdown.<br>
-  No API key. The file never leaves your machine.
+  Local MCP server that converts PDF, Word, PowerPoint, Excel and more to Markdown<br>
+  on your machine - so Claude Code, Cursor, and other agents can work with office files in the repo.
 </p>
 
 <p align="center">
-  <a href="#quick-start-claude-code"><img src="https://img.shields.io/badge/Install_for_Claude_Code-22c55e?style=for-the-badge&logoColor=white" alt="Install for Claude Code" /></a>
+  <a href="https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1YjpvZmVyc2hhcC9tY3Atc2VydmVyLWFueWRvYyJdfQ%3D%3D"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
   &nbsp;
-  <a href="#other-clients"><img src="https://img.shields.io/badge/Cursor_/_Desktop_/_VS_Code-3b82f6?style=for-the-badge&logoColor=white" alt="Other clients" /></a>
+  <a href="vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22github%3Aofershap%2Fmcp-server-anydoc%22%5D%7D"><img src="https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code" /></a>
   &nbsp;
-  <a href="#tools"><img src="https://img.shields.io/badge/See_Tools-8b5cf6?style=for-the-badge&logoColor=white" alt="See Tools" /></a>
+  <a href="#claude-code"><img src="https://img.shields.io/badge/Claude_Code-1a1a1a?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/ofershap/mcp-server-anydoc/stargazers"><img src="https://img.shields.io/github/stars/ofershap/mcp-server-anydoc?style=social" alt="GitHub stars" /></a>
   &nbsp;
-  <a href="https://www.npmjs.com/package/mcp-server-anydoc"><img src="https://img.shields.io/npm/v/mcp-server-anydoc.svg" alt="npm version" /></a>
-  <a href="https://www.npmjs.com/package/mcp-server-anydoc"><img src="https://img.shields.io/npm/dm/mcp-server-anydoc.svg" alt="npm downloads" /></a>
   <a href="https://github.com/ofershap/mcp-server-anydoc/actions/workflows/ci.yml"><img src="https://github.com/ofershap/mcp-server-anydoc/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-strict-blue" alt="TypeScript" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
@@ -30,142 +28,164 @@
 
 ---
 
-## Your Agent Meets a .docx
+## What is mcp-server-anydoc?
 
-Claude Code is great at code. Then someone drops `Q3-plan.pptx` or `contract.pdf` into the repo and the session stalls.
+**mcp-server-anydoc** is a local [Model Context Protocol](https://modelcontextprotocol.io) server that turns office documents on disk into GitHub-Flavored Markdown using [anydoc](https://github.com/firecrawl/anydoc). No API key. Conversion runs on your machine. Built for coding agents (Claude Code, Cursor, VS Code Copilot) that need to read `.docx`, `.pptx`, `.xlsx`, and PDFs inside a project - not for replacing “drop one PDF into chat.”
 
-Common workarounds suck:
+## Why not just attach a PDF in chat?
 
-| Workaround                  | What goes wrong                               |
-| --------------------------- | --------------------------------------------- |
-| Paste into chat             | Huge files, broken tables, privacy risk       |
-| Upload to a cloud parse API | Leaves your machine, needs a key, costs money |
-| Shell a random converter    | Fragile prompts, no structured tools          |
+Attaching a file in Claude chat is fine for a one-off human question. It fails for agent workflows:
 
-This package wires [anydoc](https://github.com/firecrawl/anydoc) into Claude Code as an **MCP server + skill**. Claude gets real tools (`convert_document`, `convert_base64`, `list_formats`) and a skill that teaches when to use them. Conversion is local Rust under the hood. Fast. Private.
+| Situation                                       | Chat attach                          | This MCP                       |
+| ----------------------------------------------- | ------------------------------------ | ------------------------------ |
+| One PDF you paste into Claude.ai                | Usually enough                       | Overkill                       |
+| `.docx` / `.pptx` / `.xlsx` sitting in the repo | Agent `Read` often fails on binaries | Converts on demand             |
+| “Convert every file under `./contracts/`”       | Manual hell                          | Tool loop + `output_path`      |
+| Large deck / long report                        | Attach limits and context spam       | Write `.md`, read sections     |
+| Avoid uploading to a third-party parse API      | N/A                                  | Local anydoc, no Firecrawl key |
 
-Built for Claude Code first. Also works with Cursor, Claude Desktop, VS Code Copilot, and any MCP client.
+**Privacy note:** conversion is local. The Markdown still enters the model context when the agent uses it. The win vs cloud parse APIs is “no third-party upload / no API key,” not “Claude never sees the text.”
 
-## Quick Start (Claude Code)
+## When should I use it?
 
-### 1. Add the MCP server
+Use mcp-server-anydoc when:
+
+1. A coding agent needs the contents of an office file **already on disk**
+2. You want batch convert → Markdown files in the repo
+3. You want structured tools (`convert_document`) instead of fragile shell prompts
+4. You do not want a hosted document-parse API key
+
+Skip it when you only need to ask Claude about one attached PDF in the chat UI.
+
+## One-click install
+
+### Cursor
+
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1YjpvZmVyc2hhcC9tY3Atc2VydmVyLWFueWRvYyJdfQ%3D%3D)
+
+Opens Cursor and prompts to add the server (runs via `npx` from this GitHub repo).
+
+### VS Code (Copilot MCP)
+
+[![Add to VS Code](https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)](vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22github%3Aofershap%2Fmcp-server-anydoc%22%5D%7D)
+
+### Claude Code
+
+<a id="claude-code"></a>
 
 ```bash
-claude mcp add anydoc -- npx -y mcp-server-anydoc
+claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
 ```
 
-### 2. Install the skill (so Claude knows when to convert)
+Optional skill (teaches when to convert):
 
 ```bash
 npx skills add ofershap/mcp-server-anydoc
 ```
 
-### 3. Or install as a Claude Code plugin (MCP + skill together)
+Plugin (MCP + skill together):
 
 ```bash
 /plugin marketplace add ofershap/mcp-server-anydoc
 /plugin install anydoc@ofershap-anydoc
 ```
 
-Then ask Claude something like:
+### Ask your agent to install it
 
-> Convert `./docs/proposal.docx` to Markdown and summarize the risks section.
+Paste this into Claude Code or Cursor:
 
-## What's Different
+```text
+Add the local MCP server mcp-server-anydoc so you can convert PDF/Word/Excel/PowerPoint files on disk to Markdown.
 
-|                      | Cloud parse / Firecrawl MCP parse | MarkItDown MCP    | **mcp-server-anydoc** |
-| -------------------- | --------------------------------- | ----------------- | --------------------- |
-| Runs on your machine | Usually uploads                   | Yes               | Yes                   |
-| API key              | Required (or self-host)           | No                | No                    |
-| Engine               | Hosted + OCR options              | Python MarkItDown | anydoc (Rust)         |
-| Claude Code skill    | Separate / CLI skill              | Limited           | Ships in-repo         |
-| Install              | `npx` + key                       | `uvx` / Python    | `npx` + skill/plugin  |
+Run:
+  claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
 
-Not OCR. Scanned image-only PDFs will fail. Text-based PDFs and Office files are the sweet spot.
+Or write this to MCP config:
+{
+  "mcpServers": {
+    "anydoc": {
+      "command": "npx",
+      "args": ["-y", "github:ofershap/mcp-server-anydoc"]
+    }
+  }
+}
+
+Then convert ./path/to/file.docx with the convert_document tool and summarize it.
+Repo: https://github.com/ofershap/mcp-server-anydoc
+```
+
+### Manual JSON (any MCP client)
+
+```json
+{
+  "mcpServers": {
+    "anydoc": {
+      "command": "npx",
+      "args": ["-y", "github:ofershap/mcp-server-anydoc"]
+    }
+  }
+}
+```
+
+After the package is on npm, you can swap the arg to `"mcp-server-anydoc"`.
 
 ## Tools
 
-| Tool               | What it does                                                   |
-| ------------------ | -------------------------------------------------------------- |
-| `convert_document` | Path in, Markdown out (optional `output_path` for large files) |
-| `convert_base64`   | Convert bytes already in context                               |
-| `list_formats`     | Supported extensions                                           |
+| Tool               | What it does                                                     |
+| ------------------ | ---------------------------------------------------------------- |
+| `convert_document` | Path on disk → Markdown (optional `output_path` for large files) |
+| `convert_base64`   | Base64 bytes → Markdown when you have no path                    |
+| `list_formats`     | Supported extensions                                             |
 
-Supported inputs include `.pdf`, `.doc` / `.docx`, `.ppt` / `.pptx`, `.xls` / `.xlsx`, OpenDocument, RTF, EPUB, CSV.
+Supported inputs include `.pdf`, `.doc`/`.docx`, `.ppt`/`.pptx`, `.xls`/`.xlsx`, OpenDocument, RTF, EPUB, CSV.
 
-## Other Clients
+Not OCR. Scanned image-only PDFs fail. Text-based documents are the target.
 
-<details>
-<summary>Cursor</summary>
+## Example prompts
 
-Add to `.cursor/mcp.json`:
+- “Convert `./docs/msa.docx` and list the termination clauses.”
+- “Turn every `.pptx` under `./decks/` into `.md` beside the original.”
+- “`convert_document` on `budget.xlsx` with `output_path` `./budget.md`, then summarize sheet risks.”
 
-```json
-{
-  "mcpServers": {
-    "anydoc": {
-      "command": "npx",
-      "args": ["-y", "mcp-server-anydoc"]
-    }
-  }
-}
-```
+## How it compares
 
-</details>
+|                   | Chat attach       | Firecrawl `firecrawl_parse` | MarkItDown MCP               | **mcp-server-anydoc**        |
+| ----------------- | ----------------- | --------------------------- | ---------------------------- | ---------------------------- |
+| Best for          | One-off human Q&A | Hosted parse + OCR options  | Broad local convert (Python) | Agent + office files on disk |
+| API key           | No                | Usually yes                 | No                           | No                           |
+| Runs locally      | N/A               | Often uploads               | Yes                          | Yes                          |
+| Claude Code skill | N/A               | Separate / CLI              | Limited                      | Ships in-repo                |
+| Install           | Drag file         | `npx` + key                 | `uvx` / Python               | One-click / `npx`            |
 
-<details>
-<summary>Claude Desktop</summary>
+Engine: [anydoc](https://github.com/firecrawl/anydoc) (Rust, MIT) via `@firecrawl/anydoc`.
 
-Add to `claude_desktop_config.json`:
+## FAQ
 
-```json
-{
-  "mcpServers": {
-    "anydoc": {
-      "command": "npx",
-      "args": ["-y", "mcp-server-anydoc"]
-    }
-  }
-}
-```
+### Do I need this if Claude can already read PDFs?
 
-</details>
+Often no. If you attach one PDF in chat and ask a question, skip this. Use it when an agent must read office files **from the filesystem** during a coding session, especially Word/Excel/PowerPoint binaries that `Read` cannot parse.
 
-<details>
-<summary>VS Code</summary>
+### Does the file stay private?
 
-Add to user settings or `.vscode/mcp.json`:
+Conversion never goes to a document-parse SaaS. The resulting Markdown is still sent to your LLM provider when the agent uses it. Prefer this over uploading docs to a third-party parse API if that is your concern.
 
-```json
-{
-  "mcp": {
-    "servers": {
-      "anydoc": {
-        "command": "npx",
-        "args": ["-y", "mcp-server-anydoc"]
-      }
-    }
-  }
-}
-```
+### Is this OCR?
 
-</details>
+No. Image-only or scanned PDFs need OCR elsewhere (for example Firecrawl Parse). anydoc extracts text-based documents.
 
-## Examples
+### Claude Code vs Cursor vs VS Code - which install should I use?
 
-- "Convert `./contracts/msa.pdf` to Markdown and list the termination clauses."
-- "Turn `deck.pptx` into Markdown next to the file as `deck.md`."
-- "I pasted a base64 DOCX - convert it and summarize."
+Claude Code: `claude mcp add` (and optional skill/plugin). Cursor / VS Code: use the one-click buttons above. Same underlying `npx` server.
 
-## Tech Stack
+## Tech stack
 
-|              |                                                                                                      |
-| ------------ | ---------------------------------------------------------------------------------------------------- |
-| **Runtime**  | ![Node](https://img.shields.io/badge/Node-20+-339933?logo=node.js&logoColor=white)                   |
-| **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white) |
-| **Engine**   | [anydoc](https://github.com/firecrawl/anydoc) (`@firecrawl/anydoc`)                                  |
-| **Protocol** | MCP stdio                                                                                            |
-| **Testing**  | ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white)                    |
+|              |                              |
+| ------------ | ---------------------------- |
+| **Runtime**  | Node 20+                     |
+| **Language** | TypeScript (strict)          |
+| **Engine**   | anydoc (`@firecrawl/anydoc`) |
+| **Protocol** | MCP stdio                    |
+| **Tests**    | Vitest                       |
 
 ## Development
 
@@ -179,7 +199,7 @@ npm run build
 
 ## Contributing
 
-Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). Run `claude plugin validate .` before changing plugin manifests.
 
 ## Author
 
@@ -190,7 +210,7 @@ Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-If this helped you, [star the repo](https://github.com/ofershap/mcp-server-anydoc), [open an issue](https://github.com/ofershap/mcp-server-anydoc/issues) if something breaks, or share it with someone who lives in Claude Code.
+If this helped, [star the repo](https://github.com/ofershap/mcp-server-anydoc) or [open an issue](https://github.com/ofershap/mcp-server-anydoc/issues).
 
 ## License
 

@@ -1,0 +1,20 @@
+# mcp-server-anydoc
+
+> Local MCP: office docs on disk → Markdown for coding agents (Claude Code, Cursor). No API key.
+
+## Docs
+
+- [README](https://github.com/ofershap/mcp-server-anydoc/blob/main/README.md): why it exists, one-click install, FAQ
+- [AGENTS.md](https://github.com/ofershap/mcp-server-anydoc/blob/main/AGENTS.md): install + tool contract for agents
+- [Skill](https://github.com/ofershap/mcp-server-anydoc/blob/main/skills/local-doc-to-markdown/SKILL.md): when to call convert tools
+- [Discovery](https://github.com/ofershap/mcp-server-anydoc/blob/main/launch/DISCOVERY.md): Claude marketplace / skills.sh checklist
+
+## One-line answer
+
+Use mcp-server-anydoc when a coding agent must read `.docx`, `.pptx`, `.xlsx`, or PDF files from the filesystem; skip it for one-off chat PDF attaches.
+
+## Install
+
+```bash
+claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
+```

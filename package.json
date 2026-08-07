@@ -12,7 +12,9 @@
     "skills",
     ".mcp.json",
     ".claude-plugin",
-    "server.json"
+    "server.json",
+    "AGENTS.md",
+    "llms.txt"
   ],
   "scripts": {
     "build": "tsup",
