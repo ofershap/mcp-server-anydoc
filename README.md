@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <a href="https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1YjpvZmVyc2hhcC9tY3Atc2VydmVyLWFueWRvYyJdfQ%3D%3D"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
+  <a href="https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1zZXJ2ZXItYW55ZG9jIl19"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
   &nbsp;
-  <a href="vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22github%3Aofershap%2Fmcp-server-anydoc%22%5D%7D"><img src="https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code" /></a>
+  <a href="vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mcp-server-anydoc%22%5D%7D"><img src="https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code" /></a>
   &nbsp;
   <a href="#claude-code"><img src="https://img.shields.io/badge/Claude_Code-1a1a1a?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code" /></a>
 </p>
@@ -61,20 +61,20 @@ Skip it when you only need to ask Claude about one attached PDF in the chat UI.
 
 ### Cursor
 
-[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1YjpvZmVyc2hhcC9tY3Atc2VydmVyLWFueWRvYyJdfQ%3D%3D)
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=anydoc&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1zZXJ2ZXItYW55ZG9jIl19)
 
 Opens Cursor and prompts to add the server (runs via `npx` from this GitHub repo).
 
 ### VS Code (Copilot MCP)
 
-[![Add to VS Code](https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)](vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22github%3Aofershap%2Fmcp-server-anydoc%22%5D%7D)
+[![Add to VS Code](https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)](vscode:mcp/install?%7B%22name%22%3A%22anydoc%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mcp-server-anydoc%22%5D%7D)
 
 ### Claude Code
 
 <a id="claude-code"></a>
 
 ```bash
-claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
+claude mcp add anydoc -- npx -y mcp-server-anydoc
 ```
 
 Optional skill (teaches when to convert):
@@ -98,14 +98,14 @@ Paste this into Claude Code or Cursor:
 Add the local MCP server mcp-server-anydoc so you can convert PDF/Word/Excel/PowerPoint files on disk to Markdown.
 
 Run:
-  claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
+  claude mcp add anydoc -- npx -y mcp-server-anydoc
 
 Or write this to MCP config:
 {
   "mcpServers": {
     "anydoc": {
       "command": "npx",
-      "args": ["-y", "github:ofershap/mcp-server-anydoc"]
+      "args": ["-y", "mcp-server-anydoc"]
     }
   }
 }
@@ -121,13 +121,11 @@ Repo: https://github.com/ofershap/mcp-server-anydoc
   "mcpServers": {
     "anydoc": {
       "command": "npx",
-      "args": ["-y", "github:ofershap/mcp-server-anydoc"]
+      "args": ["-y", "mcp-server-anydoc"]
     }
   }
 }
 ```
-
-After the package is on npm, you can swap the arg to `"mcp-server-anydoc"`.
 
 ## Tools
 

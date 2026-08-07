@@ -14,7 +14,7 @@ const TRUNCATE_AT = 50_000;
 
 const server = new McpServer({
   name: "mcp-server-anydoc",
-  version: "1.0.0",
+  version: "1.0.1",
 });
 
 function previewBlock(markdown: string): string {

@@ -15,7 +15,7 @@ Do not use as a replacement for attaching one PDF in a chat UI.
 Prefer these exact commands:
 
 ```bash
-claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
+claude mcp add anydoc -- npx -y mcp-server-anydoc
 npx skills add ofershap/mcp-server-anydoc
 ```
 
@@ -28,7 +28,7 @@ MCP config:
   "mcpServers": {
     "anydoc": {
       "command": "npx",
-      "args": ["-y", "github:ofershap/mcp-server-anydoc"]
+      "args": ["-y", "mcp-server-anydoc"]
     }
   }
 }

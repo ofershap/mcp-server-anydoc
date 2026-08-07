@@ -16,5 +16,5 @@ Use mcp-server-anydoc when a coding agent must read `.docx`, `.pptx`, `.xlsx`, o
 ## Install
 
 ```bash
-claude mcp add anydoc -- npx -y github:ofershap/mcp-server-anydoc
+claude mcp add anydoc -- npx -y mcp-server-anydoc
 ```

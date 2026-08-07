@@ -1,11 +1,11 @@
 {
   "name": "mcp-server-anydoc",
   "mcpName": "io.github.ofershap/anydoc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local MCP server that converts PDF, Word, PowerPoint, Excel and more to Markdown with anydoc. No API key. Files stay on your machine.",
   "type": "module",
   "bin": {
-    "mcp-server-anydoc": "./dist/index.js"
+    "mcp-server-anydoc": "dist/index.js"
   },
   "files": [
     "dist",
@@ -48,7 +48,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ofershap/mcp-server-anydoc.git"
+    "url": "git+https://github.com/ofershap/mcp-server-anydoc.git"
   },
   "bugs": {
     "url": "https://github.com/ofershap/mcp-server-anydoc/issues"

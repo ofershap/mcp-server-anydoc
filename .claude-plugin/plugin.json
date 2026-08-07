@@ -1,6 +1,6 @@
 {
   "name": "anydoc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert PDF, Word, PowerPoint, Excel and office docs to Markdown locally. No API key. Files never leave your machine.",
   "author": {
     "name": "Ofer Shapira",
