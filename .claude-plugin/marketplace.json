@@ -1,0 +1,24 @@
+{
+  "name": "ofershap-anydoc",
+  "owner": {
+    "name": "Ofer Shapira",
+    "email": "2589702+ofershap@users.noreply.github.com",
+    "url": "https://github.com/ofershap"
+  },
+  "metadata": {
+    "description": "Local document-to-Markdown tools for Claude Code: PDF, Word, PowerPoint, Excel via anydoc MCP. No API key.",
+    "version": "1.0.0"
+  },
+  "description": "Local document-to-Markdown tools for Claude Code: PDF, Word, PowerPoint, Excel via anydoc MCP. No API key.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "anydoc",
+      "source": "./",
+      "description": "Convert PDF, Word, PowerPoint, Excel to Markdown locally via MCP. No API key.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["markdown", "pdf", "docx", "anydoc", "privacy", "local"]
+    }
+  ]
+}

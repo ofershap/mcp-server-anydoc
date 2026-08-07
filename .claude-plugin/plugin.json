@@ -1,0 +1,26 @@
+{
+  "name": "anydoc",
+  "version": "1.0.0",
+  "description": "Convert PDF, Word, PowerPoint, Excel and office docs to Markdown locally. No API key. Files never leave your machine.",
+  "author": {
+    "name": "Ofer Shapira",
+    "url": "https://github.com/ofershap"
+  },
+  "homepage": "https://github.com/ofershap/mcp-server-anydoc",
+  "repository": "https://github.com/ofershap/mcp-server-anydoc",
+  "license": "MIT",
+  "keywords": [
+    "markdown",
+    "pdf",
+    "docx",
+    "pptx",
+    "xlsx",
+    "anydoc",
+    "document",
+    "convert",
+    "privacy",
+    "local",
+    "office",
+    "claude-code"
+  ]
+}
