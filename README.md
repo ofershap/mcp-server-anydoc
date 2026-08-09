@@ -20,9 +20,12 @@
 <p align="center">
   <a href="https://github.com/ofershap/mcp-server-anydoc/stargazers"><img src="https://img.shields.io/github/stars/ofershap/mcp-server-anydoc?style=social" alt="GitHub stars" /></a>
   &nbsp;
+  <a href="https://www.npmjs.com/package/mcp-server-anydoc"><img src="https://img.shields.io/npm/v/mcp-server-anydoc.svg" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/mcp-server-anydoc"><img src="https://img.shields.io/npm/dm/mcp-server-anydoc.svg" alt="npm downloads" /></a>
   <a href="https://github.com/ofershap/mcp-server-anydoc/actions/workflows/ci.yml"><img src="https://github.com/ofershap/mcp-server-anydoc/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-strict-blue" alt="TypeScript" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
+  <a href="https://agent-plugins.org"><img src="https://img.shields.io/badge/Agent_Plugins-1.0.0-0ea5e9.svg" alt="Agent Plugins" /></a>
   <a href="https://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a>
 </p>
 
@@ -127,6 +130,16 @@ Repo: https://github.com/ofershap/mcp-server-anydoc
 }
 ```
 
+## Agent Plugins
+
+This repo ships as an [Agent Plugins](https://agent-plugins.org) **1.0.0** package: root `plugin.json`, `mcp.json`, and `skills/local-doc-to-markdown/` teach agents when to convert office files on disk.
+
+Claude Code `.claude-plugin/` manifests remain for marketplace installs. Agent Plugins is the cross-client layout (MCP + skills in one tree).
+
+**Cursor (local plugin):** clone the repo, then copy or symlink it to `~/.cursor/plugins/local/mcp-server-anydoc` and reload the window. One-click MCP buttons below still work if you only want the server without the skill bundle.
+
+Spec and tooling: [agent-plugins.org](https://agent-plugins.org).
+
 ## Tools
 
 | Tool               | What it does                                                     |
@@ -159,21 +172,25 @@ Engine: [anydoc](https://github.com/firecrawl/anydoc) (Rust, MIT) via `@firecraw
 
 ## FAQ
 
-### Do I need this if Claude can already read PDFs?
+### Do I need this if I can attach a PDF in chat?
 
-Often no. If you attach one PDF in chat and ask a question, skip this. Use it when an agent must read office files **from the filesystem** during a coding session, especially Word/Excel/PowerPoint binaries that `Read` cannot parse.
+For a one-off question about one PDF in the chat UI, attaching is enough. Use this MCP when a coding agent must read `.docx`, `.pptx`, `.xlsx`, or PDFs **from the repo**, batch-convert folders, or write Markdown to disk without manual uploads.
 
-### Does the file stay private?
+### Agent Plugins vs MCP-only install?
 
-Conversion never goes to a document-parse SaaS. The resulting Markdown is still sent to your LLM provider when the agent uses it. Prefer this over uploading docs to a third-party parse API if that is your concern.
+MCP-only (one-click Cursor/VS Code or `mcp.json`) gives you `convert_document` and friends. The Agent Plugins package adds `plugin.json` plus the `local-doc-to-markdown` skill so agents know when to convert instead of guessing. Same `npx` server either way.
 
-### Is this OCR?
+### Is OCR supported?
 
-No. Image-only or scanned PDFs need OCR elsewhere (for example Firecrawl Parse). anydoc extracts text-based documents.
+No. Scanned or image-only PDFs fail. anydoc targets text-based office documents and PDFs. Use an OCR pipeline elsewhere, then convert the result if needed.
 
-### Claude Code vs Cursor vs VS Code - which install should I use?
+### Where does my document go? (privacy)
 
-Claude Code: `claude mcp add` (and optional skill/plugin). Cursor / VS Code: use the one-click buttons above. Same underlying `npx` server.
+Conversion runs locally via anydoc. Nothing is sent to a document-parse SaaS and no API key is required. Converted Markdown still enters the model context when the agent reads it, same as any tool output.
+
+### Which clients work?
+
+Any MCP client over stdio: Cursor, VS Code Copilot MCP, Claude Code, Claude Desktop, Windsurf, and others. Claude Code can also use the marketplace plugin; Cursor can load the repo from `~/.cursor/plugins/local/mcp-server-anydoc`.
 
 ## Tech stack
 

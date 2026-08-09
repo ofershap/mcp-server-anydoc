@@ -14,7 +14,9 @@
     ".claude-plugin",
     "server.json",
     "AGENTS.md",
-    "llms.txt"
+    "llms.txt",
+    "plugin.json",
+    "mcp.json"
   ],
   "scripts": {
     "build": "tsup",

@@ -1,6 +1,6 @@
 ---
 name: local-doc-to-markdown
-description: Convert local PDF, Word (.doc/.docx), PowerPoint (.ppt/.pptx), Excel (.xls/.xlsx), OpenDocument, RTF, EPUB, CSV files to GitHub-Flavored Markdown via the anydoc MCP server. Use when Claude Code needs the contents of an office document, spreadsheet, presentation, ebook, or PDF on the user's machine without uploading files or using an API key. Prefer these MCP tools over shelling out to CLI converters.
+description: Convert local PDF, Word (.doc/.docx), PowerPoint (.ppt/.pptx), Excel (.xls/.xlsx), OpenDocument, RTF, EPUB, and CSV to GitHub-Flavored Markdown via the anydoc MCP server. Triggers include convert pdf to markdown, read docx, powerpoint to md, excel to markdown, office files in repo, and local document convert without API key. Use when an agent needs on-disk office files, batch repo conversion, or structured tools instead of chat attachments or hosted parse APIs. Prefer MCP over shelling out to CLI converters when this server is connected.
 license: MIT
 metadata:
   author: ofershap
@@ -24,6 +24,21 @@ Use the **anydoc** MCP tools. Conversion runs on the user's machine. No API key.
 2. For large documents, pass `output_path` (e.g. `./report.md`) and read only the sections you need.
 3. Use `format` only for CSV or when the extension is missing/wrong.
 4. If conversion fails on a scanned PDF, say OCR is required. This server is not OCR.
+
+## Defaults
+
+- Tool choice: `convert_document` with an absolute path.
+- Large files: set `output_path` and read slices from the written `.md`.
+- Unknown extension: call `list_formats` or pass explicit `format`.
+
+## Error scenarios
+
+| Symptom                          | Action                                                                      |
+| -------------------------------- | --------------------------------------------------------------------------- |
+| Scanned or image-only PDF        | Tell the user OCR is not supported here; suggest an OCR pipeline elsewhere. |
+| Unknown or unsupported extension | `list_formats`; fix path or pass `format`.                                  |
+| `convert_base64` without format  | Require `format` or a filename with a known extension.                      |
+| MCP server not connected         | Ask the user to add `mcp-server-anydoc` to MCP config, then retry.          |
 
 ## Rules
 

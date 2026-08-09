@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mcp-server-anydoc",
+  "version": "1.0.1",
+  "description": "Convert PDF, Word, PowerPoint, Excel and office docs to Markdown locally via MCP. No API key.",
+  "author": {
+    "name": "Ofer Shapira",
+    "url": "https://github.com/ofershap"
+  },
+  "homepage": "https://github.com/ofershap/mcp-server-anydoc",
+  "repository": "https://github.com/ofershap/mcp-server-anydoc",
+  "license": "MIT",
+  "keywords": [
+    "agent-plugins",
+    "mcp",
+    "markdown",
+    "pdf",
+    "docx",
+    "anydoc",
+    "local"
+  ]
+}
