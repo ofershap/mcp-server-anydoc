@@ -57,7 +57,7 @@
   },
   "homepage": "https://github.com/ofershap/mcp-server-anydoc#readme",
   "dependencies": {
-    "@firecrawl/anydoc": "^0.1.7",
+    "@firecrawl/anydoc": "^0.2.3",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "zod": "^4.4.3"
   },
